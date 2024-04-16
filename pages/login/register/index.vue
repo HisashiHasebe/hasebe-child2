@@ -92,7 +92,6 @@ const handleSignup = async () => {
         method: "POST",
         credentials: "include",
         body: { ...user.value },
-        server: false,
       }
     );
     await login({

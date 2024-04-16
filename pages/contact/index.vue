@@ -336,7 +336,6 @@ const { data: response } = await useFetch(
   `${config.public.kurocoApiDomain}/rcms-api/1/inquiry/1`,
   {
     credentials: "include",
-    server: false,
   }
 );
 
@@ -378,7 +377,6 @@ const handleFileChange = async (e) => {
         credentials: "include",
         method: "POST",
         body: fm,
-        server: false,
       }
     );
     error.value = [];
@@ -404,7 +402,6 @@ const handleOnSubmit = async () => {
         credentials: "include",
         method: "POST",
         body: submitData,
-        server: false,
       }
     );
     submitted.value = true;

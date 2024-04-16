@@ -44,14 +44,12 @@ const { data: news } = await useFetch(
   `${config.public.kurocoApiDomain}/rcms-api/1/news/details/${route.params.id}`,
   {
     credentials: "include",
-    server: false,
   }
 );
 const { data: newsConditionMaster } = await useFetch(
   `${config.public.kurocoApiDomain}/rcms-api/1/master`,
   {
     credentials: "include",
-    server: false,
   }
 );
 </script>

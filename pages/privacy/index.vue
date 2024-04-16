@@ -19,7 +19,6 @@ const { data: response } = await useFetch(
   `${config.public.kurocoApiDomain}/rcms-api/1/content/details/privacy`,
   {
     credentials: "include",
-    server: false,
   }
 );
 </script>

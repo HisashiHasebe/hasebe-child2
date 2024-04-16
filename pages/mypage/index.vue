@@ -200,14 +200,12 @@ const updateStatus = async (status) => {
         email: authUser.value.email,
         ext_01: status,
       },
-      server: false,
     });
     // for refreshing user's group_id with new session, instead of logout and login.
     await $fetch(`${config.public.kurocoApiDomain}/rcms-api/1/member/update`, {
       credentials: "include",
       method: "POST",
       body: {},
-      server: false,
     });
     await profile();
     error.value = null;
