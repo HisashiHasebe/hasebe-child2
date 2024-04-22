@@ -136,6 +136,7 @@ const resetPasswordRequest = async () => {
         body: {
           email: formData.email,
         },
+        server: false,
       }
     );
     errors.value = [];
@@ -171,6 +172,7 @@ const resetPassword = async () => {
           temp_pwd: formData.temporaryPassword,
           login_pwd: formData.password,
         },
+        server: false,
       }
     );
     errors.value = [];

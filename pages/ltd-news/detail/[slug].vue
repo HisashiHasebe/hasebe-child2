@@ -1,5 +1,4 @@
 <template>
-  <ClientOnly>
   <div>
     <UiPageHeader
       :path="[{ label: '会員限定コンテンツ', to: '/ltd-news/' }]"
@@ -56,7 +55,6 @@
       </template>
     </div>
   </div>
-  </ClientOnly>
 </template>
 
 <script setup>

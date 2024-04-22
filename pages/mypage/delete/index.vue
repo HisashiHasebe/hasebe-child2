@@ -56,6 +56,7 @@ const handleDeleteProfile = async () => {
       credentials: "include",
       method: "POST",
       body: {},
+      server: false,
     });
     await logout();
     deleteDone.value = true;

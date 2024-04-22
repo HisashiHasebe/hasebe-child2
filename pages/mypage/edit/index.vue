@@ -1,5 +1,4 @@
 <template>
-  <ClientOnly>
   <div>
     <UiPageHeader
       :path="[{ label: 'マイページ', to: '/mypage/' }]"
@@ -53,7 +52,6 @@
       </div>
     </section>
   </div>
-  </ClientOnly>
 </template>
 
 <script setup>
