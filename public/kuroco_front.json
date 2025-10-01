@@ -1,7 +1,7 @@
 {
   "rewrites": [
     { "source": "^/$", "destination": "/index.html" },
-    { "source": "^/company/?$", "destination": "/index.html" },
+    { "source": "^/company/?$", "destination": "/index.html" }
   ],
   "redirects": [
     {
