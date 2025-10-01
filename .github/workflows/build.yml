@@ -21,13 +21,20 @@ jobs:
       - name: "Get branch name and sha"
         id: get_branch
         run: |
-          PR=$(curl -H "X-Kuroco-Auth: token a288b931dbbf2efceaa1787e347016de" https://hasebe-child2.g.kuroco.app/direct/menu/github/?pr=${{ github.event.issue.pull_request.url }})
+          PR=$(curl -H "X-Kuroco-Auth: token 1964c2adfe1642e4648e7c3d68d5e85b" https://hasebe-child2.g.kuroco.app/direct/menu/github/?pr=${{ github.event.issue.pull_request.url }})
           echo "branch=$(echo $PR | jq -r '.ref')" >> $GITHUB_OUTPUT
           echo "sha=$(echo $PR | jq -r '.sha')" >> $GITHUB_OUTPUT
       - name: Checkout Repo
         uses: actions/checkout@v4
         with:
           ref: ${{ steps.get_branch.outputs.branch }}
+          fetch-depth: 0
+        continue-on-error: true
+      - name: Fallback checkout if branch not found
+        if: failure()
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.pull_request.head.ref || 'main' }}
       - name: Use Node.js
         uses: actions/setup-node@v4
         with:
@@ -46,6 +53,21 @@ jobs:
 
       - name: Generate
         run: npm run generate
+      - name: Validate kuroco_front.json
+        run: |
+          if [ -f "./.output/public/kuroco_front.json" ]; then
+            echo "kuroco_front.json found"
+            # JSON形式の検証
+            if jq empty ./.output/public/kuroco_front.json; then
+              echo "kuroco_front.json is valid JSON"
+            else
+              echo "Error: kuroco_front.json is not valid JSON"
+              exit 1
+            fi
+          else
+            echo "Error: kuroco_front.json not found in public folder"
+            exit 1
+          fi
       - name: Zip artifact for upload
         run: cd ./.output/public && zip ../../dist.zip . -r
       - name: Archive Production Artifact
@@ -58,10 +80,10 @@ jobs:
         run: sleep 15
       - name: Webhook
         uses: diverta/workflow-webhook@v3
-        env:
+        with:
           webhook_url: "https://hasebe-child2.g.kuroco.app/direct/menu/github/"
-          webhook_secret: "a288b931dbbf2efceaa1787e347016de"
-          data: '{"single_zip":"1","domain":"hasebe-child2.g.kuroco-front.app","pr":"${{ github.event.issue.pull_request.url }}",  "repository":"${{ github.repository }}", "run_id":"${{ github.run_id }}", "hash":"${{ steps.get_branch.outputs.sha }}"}'
+          webhook_secret: "1964c2adfe1642e4648e7c3d68d5e85b"
+          data: '{"single_zip":"1","domain":"hasebe-child2.example.com","pr":"${{ github.event.issue.pull_request.url }}",  "repository":"${{ github.repository }}", "run_id":"${{ github.run_id }}", "hash":"${{ steps.get_branch.outputs.sha }}"}'
           
   #for Push
   pushed_build:
@@ -89,6 +111,21 @@ jobs:
 
       - name: Generate
         run: npm run generate
+      - name: Validate kuroco_front.json
+        run: |
+          if [ -f "./.output/public/kuroco_front.json" ]; then
+            echo "kuroco_front.json found"
+            # JSON形式の検証
+            if jq empty ./.output/public/kuroco_front.json; then
+              echo "kuroco_front.json is valid JSON"
+            else
+              echo "Error: kuroco_front.json is not valid JSON"
+              exit 1
+            fi
+          else
+            echo "Error: kuroco_front.json not found in public folder"
+            exit 1
+          fi
       - name: Zip artifact for upload
         run: cd ./.output/public && zip ../../dist.zip . -r
       - name: Archive Production Artifact
@@ -99,7 +136,7 @@ jobs:
           retention-days: 7
       - name: Webhook
         uses: diverta/workflow-webhook@v3
-        env:
+        with:
           webhook_url: "https://hasebe-child2.g.kuroco.app/direct/menu/github/"
-          webhook_secret: "a288b931dbbf2efceaa1787e347016de"
-          data: '{"single_zip":"1","domain":"hasebe-child2.g.kuroco-front.app", "repository":"${{ github.repository }}", "run_id":"${{ github.run_id }}", "hash":"${{ github.sha }}"}'
+          webhook_secret: "1964c2adfe1642e4648e7c3d68d5e85b"
+          data: '{"single_zip":"1","domain":"hasebe-child2.example.com", "repository":"${{ github.repository }}", "run_id":"${{ github.run_id }}", "hash":"${{ github.sha }}"}'
