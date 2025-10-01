@@ -1,14 +1,6 @@
 {
-  "rewrites": [
-    { "source": "^/$", "destination": "/index.html" },
-    { "source": "^/company/?$", "destination": "/index.html" }
-  ],
-  "redirects": [
-    {
-      "source": "^/.*",
-      "destination": "status:404"
-    }
-  ],
+  "rewrites": [],
+  "redirects": [],
   "basic": [],
   "ip_restrictions": [],
   "error_pages": {
